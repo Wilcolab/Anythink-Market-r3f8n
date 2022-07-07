@@ -60,11 +60,12 @@ async function run() {
     console.log("start");
     connectToMongo()
 
-    for (let ij = 0; i <100; i++) {
+    for (let i = 0; i <100; i++) {
+        console.log("creating user: " + i);
         let user = createUser("user"+i, "user"+i+"@test.com", "1234")
 
         for (let j = 0; j <100; j++) {
-            console.log("creating user: " + i);
+            
             
             console.log("creating item: " + j);
             var item = new Item({item: {title: "test" + j, description: "test" + j, image: "test" + j, tagList: ["test" + j]}});
