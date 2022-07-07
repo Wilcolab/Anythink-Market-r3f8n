@@ -1,4 +1,5 @@
 const axios = require('axios').default;
+const auth = require('../routes/auth');
 
 async function createItem(i) {
     return axios.post('http://localhost:3000/api/items', {
@@ -13,10 +14,13 @@ async function createItem(i) {
 
 
 async function run() {
+    console.log("finised");
     for (let i = 0; i <100; i++) {
+        console.log("creating item: " + i);
         await createItem(i);
-        console.log("finised");
+        console.log("finished creating item: " + i);
     }
+    console.log("finised");
 }
 
 run();
