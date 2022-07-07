@@ -52,30 +52,31 @@ async function addItemToUser(userId, item) {
             console.log("item saved: " + item);
         });
     })
-    .catch(next);
+    .catch(e => console.log("error: " + e));
 }
 
 
 async function run() {
     console.log("start");
-    connectToMongo()
+    await connectToMongo()
 
     for (let i = 0; i <100; i++) {
         console.log("creating user: " + i);
-        let user = createUser("user"+i, "user"+i+"@test.com", "1234")
+        let user = await createUser("user"+i, "user"+i+"@test.com", "1234");
 
         for (let j = 0; j <100; j++) {
             
             
             console.log("creating item: " + j);
             var item = new Item({item: {title: "test" + j, description: "test" + j, image: "test" + j, tagList: ["test" + j]}});
-            addItemToUser(user, item)
+            await addItemToUser(user, item)
             console.log("finished creating item: " + j);
         }
     }
 }
 
 run().then(()=> {
+    
     console.log("finised");
 }).catch(e => {
     console.log("error " + e);
