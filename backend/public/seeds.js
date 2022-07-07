@@ -16,7 +16,7 @@ if (!process.env.MONGODB_URI) {
 
 
 async function connectToMongo(){
-    mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGODB_URI);
     if (isProduction) {
     } else {
         mongoose.set("debug", true);
@@ -70,13 +70,12 @@ async function run() {
             console.log("creating item: " + j);
             var item = new Item({item: {title: "test" + j, description: "test" + j, image: "test" + j, tagList: ["test" + j]}});
             await addItemToUser(user, item)
-            console.log("finished creating item: " + j);
+            console.log("user" + i + " finished creating item: " + j);
         }
     }
 }
 
 run().then(()=> {
-    
     console.log("finised");
 }).catch(e => {
     console.log("error " + e);
