@@ -1,25 +1,76 @@
 const axios = require('axios').default;
-const auth = require('../routes/auth');
+const mongoose = require("mongoose");
+require('../models/User');
+require('../models/Item');
 
-async function createItem(i) {
-    return axios.post('http://localhost:3000/api/items', {
-    item: {
-        title: "test"+ i, description: "test"+ i, image: "test"+ i, tagList: ["test" + i]
-    }}, {
-        headers: {
-          'Authorization': `Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYmMyZmNkNzJkMTM0MDA1NDEzNzQzOSIsInVzZXJuYW1lIjoiaXNoYXkiLCJleHAiOjE2NjIzOTQzMzUsImlhdCI6MTY1NzIxMDMzNX0.eiX4yEUyhNnGUg5JuRIrNaCN3WN4MgOmbCQ6E0n2rGc` 
-        }
+
+const User = mongoose.model("User");
+const Item = mongoose.model("Item");
+const isProduction = process.env.NODE_ENV === "production";
+
+process.env.MONGODB_URI = "mongodb://localhost:27017"
+
+if (!process.env.MONGODB_URI) {
+    console.warn("Missing MONGODB_URI in env, please add it to your .env file");
+}
+
+
+async function connectToMongo(){
+    mongoose.connect(process.env.MONGODB_URI);
+    if (isProduction) {
+    } else {
+        mongoose.set("debug", true);
+    }
+    
+}
+
+async function createUser(username, email, password) {
+    
+    let user = new User();
+    user.username = username;
+    user.email = email;
+    user.setPassword(password);
+    
+    user.save()
+    .then(function() {
+        console.log("user saved: " + user)
+        return { user: user.toAuthJSON() };
     })
+    .catch(e => console.log(e));
+}
+
+
+async function addItemToUser(userId, item) {
+    User.findById(userId)
+    .then(function(user) {
+        if (!user) {
+        }
+        
+        item.seller = user;
+        
+        return item.save().then(function() {
+            console.log("item saved: " + item);
+        });
+    })
+    .catch(next);
 }
 
 
 async function run() {
-    console.log("finised");
-    for (let i = 0; i <100; i++) {
-        console.log("creating item: " + i);
-        await createItem(i);
-        conso
-        console.log("finished creating item: " + i);
+    console.log("start");
+    connectToMongo()
+
+    for (let ij = 0; i <100; i++) {
+        let user = createUser("user"+i, "user"+i+"@test.com", "1234")
+
+        for (let j = 0; j <100; j++) {
+            console.log("creating user: " + i);
+            
+            console.log("creating item: " + j);
+            var item = new Item({item: {title: "test" + j, description: "test" + j, image: "test" + j, tagList: ["test" + j]}});
+            addItemToUser(user, item)
+            console.log("finished creating item: " + j);
+        }
     }
 }
 
