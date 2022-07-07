@@ -18,10 +18,14 @@ async function run() {
     for (let i = 0; i <100; i++) {
         console.log("creating item: " + i);
         await createItem(i);
+        conso
         console.log("finished creating item: " + i);
     }
-    console.log("finised");
 }
 
-run();
+run().then(()=> {
+    console.log("finised");
+}).catch(e => {
+    console.log("error " + e);
+});
 
