@@ -34,18 +34,14 @@ async function createUser(username, email, password) {
 
 
 async function addItemToUser(userId, item) {
-    User.findById(userId)
-    .then(function(user) {
-        if (!user) {
-        }
+    let user = await User.findById(userId);
+    if (!user) {
+    }
         
-        item.seller = user;
-        
-        return item.save().then(function() {
-            console.log("item saved: " + item);
-        });
-    })
-    .catch(e => console.log("error: " + e));
+    item.seller = user;
+    
+    await item.save();
+    console.log("item saved: " + item);
 }
 
 
