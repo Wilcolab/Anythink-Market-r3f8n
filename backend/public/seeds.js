@@ -41,7 +41,6 @@ async function addItemToUser(userId, item) {
     item.seller = user;
     
     await item.save();
-    console.log("item saved: " + item);
 }
 
 
