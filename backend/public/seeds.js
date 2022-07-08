@@ -18,7 +18,7 @@ if (!process.env.MONGODB_URI) {
 async function connectToMongo(){
     await mongoose.connect(process.env.MONGODB_URI);
     mongoose.set("debug", true);
-    
+    return 0;
 }
 
 async function createUser(username, email, password) {
@@ -29,7 +29,7 @@ async function createUser(username, email, password) {
     user.setPassword(password);
     
     let uu = await user.save();
-    console.log("user saved: " + uu);
+    return 0;
 }
 
 
@@ -37,19 +37,18 @@ async function addItemToUser(userId, item) {
     let user = await User.findById(userId);
     if (!user) {
     }
-        
     item.seller = user;
-    
     await item.save();
+    return 0;
 }
 
 
 async function run() {
     console.log("start");
     await connectToMongo()
-    for (let i = 0; i <100; i++) {
+    for (let i = 0; i <1; i++) {
         console.log("creating user: ");
-        let user = await createUser("uuser"+i, "uuser@test.com"+i, "1234"+i);
+        let user = await createUser("user"+i, "user" + +i+ "@test.com", "1234"+i);
         for (let j = 0; j <100; j++) {
             console.log("creating item: " + j);
             var item = new Item({item: {title: "test" + j, description: "test" + j, image: "test" + j, tagList: ["test" + j]}});
