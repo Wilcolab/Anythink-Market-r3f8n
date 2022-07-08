@@ -17,10 +17,7 @@ if (!process.env.MONGODB_URI) {
 
 async function connectToMongo(){
     await mongoose.connect(process.env.MONGODB_URI);
-    if (isProduction) {
-    } else {
-        mongoose.set("debug", true);
-    }
+    mongoose.set("debug", true);
     
 }
 
@@ -31,12 +28,8 @@ async function createUser(username, email, password) {
     user.email = email;
     user.setPassword(password);
     
-    user.save()
-    .then(function() {
-        console.log("user saved: " + user)
-        return { user: user.toAuthJSON() };
-    })
-    .catch(e => console.log(e));
+    let uu = await user.save();
+    console.log("user saved: " + uu);
 }
 
 
@@ -59,18 +52,14 @@ async function addItemToUser(userId, item) {
 async function run() {
     console.log("start");
     await connectToMongo()
-
     for (let i = 0; i <100; i++) {
-        console.log("creating user: " + i);
-        let user = await createUser("user"+i, "user"+i+"@test.com", "1234");
-
+        console.log("creating user: ");
+        let user = await createUser("uuser"+i, "uuser@test.com"+i, "1234"+i);
         for (let j = 0; j <100; j++) {
-            
-            
             console.log("creating item: " + j);
             var item = new Item({item: {title: "test" + j, description: "test" + j, image: "test" + j, tagList: ["test" + j]}});
             await addItemToUser(user, item)
-            console.log("user" + i + " finished creating item: " + j);
+            console.log("user" +i+ " finished creating item: " + j);
         }
     }
 }
