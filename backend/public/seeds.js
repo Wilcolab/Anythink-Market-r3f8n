@@ -27,19 +27,18 @@ async function createOrGetUser(username, email, password) {
     user.email = email;
     user.setPassword(password);
     let uu = await user.save();
-    console.log("user saved: " + uu.toAuthJSON())
+    console.log("user saved: " + JSON.stringify(uu.toAuthJSON()) )
     return uu;
 }
 
 
-async function addItemToUser(userId) {
+async function addItemToUser(userId, item) {
     console.log("looking for user: " + userId)
     let user = await User.findById(userId);
     if (user)
         console.log("user found");
     else
         console.log("user is undefined");
-    var item = new Item({item: {title: "test-item", description: "test-desc", image: "test-img", tagList: ["test-tag"]}});
     item.seller = user;
     await item.save();
     console.log("added item to user");
@@ -52,13 +51,17 @@ async function run() {
     await connectToMongo()
     for (let i = 0; i < 1; i++) {
         console.log("creating user: " + i);
-        const username = "test";
+        const username = "ttttetstttttttt";
         const email = username + "@test.com";
         const pass = "abcd1234"
         let user = await createOrGetUser(username, email, pass);
         for (let j = 0; j <3; j++) {
             console.log("creating item: " + j);
-            await addItemToUser(user)
+            let item = new Item({item: {
+                title: "title"+j.toString(), description: "", image: "", tagList: []
+            }}
+            );
+            await addItemToUser(user, item)
             console.log("user" + i + " finished creating item: " + j);
         }
         console.log("finished creating user " + i);
@@ -71,6 +74,5 @@ run().then(()=> {
     return 0;
 }).catch(e => {
     console.error(e);
-    console.trace();
     process.exit(1);
 });
