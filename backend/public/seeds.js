@@ -81,7 +81,7 @@ async function run() {
             });
             item = await addItemToUser(user, item)
             console.log("user" + i + " finished creating item: " + j);
-            await addCommentToItem(item, user)
+            await addCommentToItem(user, item)
         }
         console.log("finished creating user " + i);
     }
