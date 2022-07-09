@@ -51,7 +51,7 @@ async function run() {
     await connectToMongo()
     for (let i = 0; i < 1; i++) {
         console.log("creating user: " + i);
-        const username = "tttttttttetstttttttt";
+        const username = "test";
         const email = username + "@test.com";
         const pass = "abcd1234"
         let user = await createOrGetUser(username, email, pass);
@@ -70,7 +70,7 @@ async function run() {
 
 run().then(()=> {
     console.log("finised");
-    return 0;
+    process.exit(0);
 }).catch(e => {
     console.error(e);
     process.exit(1);
