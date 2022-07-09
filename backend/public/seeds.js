@@ -51,16 +51,15 @@ async function run() {
     await connectToMongo()
     for (let i = 0; i < 1; i++) {
         console.log("creating user: " + i);
-        const username = "ttttetstttttttt";
+        const username = "tttttttttetstttttttt";
         const email = username + "@test.com";
         const pass = "abcd1234"
         let user = await createOrGetUser(username, email, pass);
         for (let j = 0; j <3; j++) {
             console.log("creating item: " + j);
-            let item = new Item({item: {
-                title: "title"+j.toString(), description: "", image: "", tagList: []
-            }}
-            );
+            let item = new Item({
+                title: "title", description: "", image: "", tagList: []
+            });
             await addItemToUser(user, item)
             console.log("user" + i + " finished creating item: " + j);
         }
