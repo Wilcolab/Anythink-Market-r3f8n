@@ -32,14 +32,14 @@ async function createOrGetUser(username, email, password) {
 }
 
 
-async function addItemToUser(userId, i) {
+async function addItemToUser(userId) {
     console.log("looking for user: " + userId)
     let user = await User.findById(userId);
     if (user)
         console.log("user found");
     else
         console.log("user is undefined");
-    var item = new Item({item: {title: "test-item"+i, description: "test-desc", image: "test-img", tagList: ["test-tag"]}});
+    var item = new Item({item: {title: "test-item", description: "test-desc", image: "test-img", tagList: ["test-tag"]}});
     item.seller = user;
     await item.save();
     console.log("added item to user");
@@ -58,8 +58,8 @@ async function run() {
         let user = await createOrGetUser(username, email, pass);
         for (let j = 0; j <3; j++) {
             console.log("creating item: " + j);
-            await addItemToUser(user, j)
-            console.log("user" +i+ " finished creating item: " + j);
+            await addItemToUser(user)
+            console.log("user" + i + " finished creating item: " + j);
         }
         console.log("finished creating user " + i);
     }
