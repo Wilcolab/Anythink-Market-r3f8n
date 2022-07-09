@@ -8,7 +8,8 @@ const User = mongoose.model("User");
 const Item = mongoose.model("Item");
 const isProduction = process.env.NODE_ENV === "production";
 
-process.env.MONGODB_URI = "mongodb://localhost:27017"
+//process.env.MONGODB_URI = "mongodb://localhost:27017"
+process.env.MONGODB_URI="mongodb://localhost/anythink-market"
 
 if (!process.env.MONGODB_URI) {
     console.warn("Missing MONGODB_URI in env, please add it to your .env file");
