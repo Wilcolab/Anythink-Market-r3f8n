@@ -37,11 +37,11 @@ async function createOrGetUser(username, email, password) {
 
 
 async function addCommentToItem(user, item){
-    // let user = await User.findById(userId);
-    // if (user)
-    //     console.log("user found");
-    // else
-    //     console.log("user is undefined");
+    let user = await User.findById(userId);
+    if (user)
+        console.log("user found");
+    else
+        console.log("user is undefined");
     let comment = new Comment({body: "body"});
     comment.item = item;
     comment.seller = user;
@@ -52,8 +52,8 @@ async function addCommentToItem(user, item){
 
 
 async function addItemToUser(userId, item) {
-    // console.log("looking for user: " + userId)
-    // let user = await User.findById(userId);
+    //console.log("looking for user: " + userId)
+    let user = await User.findById(userId);
     if (user)
         console.log("user found");
     else
