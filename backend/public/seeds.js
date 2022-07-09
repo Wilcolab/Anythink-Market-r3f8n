@@ -36,7 +36,8 @@ async function createOrGetUser(username, email, password) {
 async function addItemToUser(userId, i) {
     let user = await User.findById(userId);
     console.log("user found");
-    var item = new Item({item: {seller: user, title: "test-item"+i, description: "test-desc", image: "test-img", tagList: ["test-tag"]}});
+    var item = new Item({item: {title: "test-item"+i, description: "test-desc", image: "test-img", tagList: ["test-tag"]}});
+    item.seller = user;
     await item.save();
     console.log("added item to user");
     return 0;
