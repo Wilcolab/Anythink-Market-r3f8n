@@ -58,7 +58,7 @@ async function run() {
         let user = await createOrGetUser(username, email, pass);
         for (let j = 0; j <3; j++) {
             console.log("creating item: " + j);
-            await addItemToUser(user.id, j)
+            await addItemToUser(user, j)
             console.log("user" +i+ " finished creating item: " + j);
         }
         console.log("finished creating user " + i);
