@@ -58,7 +58,7 @@ async function run() {
         for (let j = 0; j <100; j++) {
             console.log("creating item: " + j);
             let item = new Item({
-                title: "title" + i, description: "", image: "", tagList: []
+                title: "title" + j, description: "", image: "", tagList: []
             });
             await addItemToUser(user, item)
             console.log("user" + i + " finished creating item: " + j);
