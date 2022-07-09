@@ -22,20 +22,22 @@ async function connectToMongo(){
 }
 
 async function createOrGetUser(username, email, password) {
-    
     let user = new User();
     user.username = username;
     user.email = email;
     user.setPassword(password);
     let uu = await user.save();
-    
+    console.log("user saved: " + uu.id)
     return uu.id;
 }
 
 
 async function addItemToUser(userId, i) {
     let user = await User.findById(userId);
-    console.log("user found");
+    if (user)
+        console.log("user found");
+    else
+        console.log("user is undefined");
     var item = new Item({item: {title: "test-item"+i, description: "test-desc", image: "test-img", tagList: ["test-tag"]}});
     item.seller = user;
     await item.save();
@@ -65,6 +67,7 @@ async function run() {
 
 run().then(()=> {
     console.log("finised");
+    return 0;
 }).catch(e => {
     console.log("error " + e);
     process.exit(1);
