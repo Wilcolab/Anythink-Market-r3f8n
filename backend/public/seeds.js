@@ -17,7 +17,7 @@ if (!process.env.MONGODB_URI) {
 
 async function connectToMongo(){
     await mongoose.connect(process.env.MONGODB_URI);
-    mongoose.set("debug", true);
+    //mongoose.set("debug", true);
     return 0;
 }
 
