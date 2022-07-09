@@ -33,10 +33,10 @@ async function createOrGetUser(username, email, password) {
 }
 
 
-async function addItemToUser(userId, item) {
+async function addItemToUser(userId, ן) {
     let user = await User.findById(userId);
     console.log("user found");
-    var item = new Item({item: {seller: user.objectId, title: "test-item-" + j, description: "test-desc", image: "test-img", tagList: ["test-tag"]}});
+    var item = new Item({item: {seller: user.objectId, title: "test-item"+i, description: "test-desc", image: "test-img", tagList: ["test-tag"]}});
     await item.save();
     console.log("added item to user");
     return 0;
@@ -54,7 +54,7 @@ async function run() {
         let user = await createOrGetUser(username, email, pass);
         for (let j = 0; j <3; j++) {
             console.log("creating item: " + j);
-            await addItemToUser(user)
+            await addItemToUser(user, j)
             console.log("user" +i+ " finished creating item: " + j);
         }
         console.log("finished creating user " + i);
