@@ -21,22 +21,20 @@ async function connectToMongo(){
     return 0;
 }
 
-async function createUser(username, email, password) {
+async function createOrGetUser(username, email, password) {
     
     let user = new User();
     user.username = username;
     user.email = email;
     user.setPassword(password);
-    
     let uu = await user.save();
-    return 0;
+    
+    return uu.toAuthJSON();
 }
 
 
 async function addItemToUser(userId, item) {
     let user = await User.findById(userId);
-    if (!user) {
-    }
     item.seller = user;
     await item.save();
     return 0;
@@ -46,15 +44,17 @@ async function addItemToUser(userId, item) {
 async function run() {
     console.log("start");
     await connectToMongo()
-    for (let i = 0; i <1; i++) {
-        console.log("creating user: ");
-        let user = await createUser("user"+i, "user" + +i+ "@test.com", "1234"+i);
-        for (let j = 0; j <100; j++) {
-            console.log("creating item: " + j);
-            var item = new Item({item: {title: "test" + j, description: "test" + j, image: "test" + j, tagList: ["test" + j]}});
-            await addItemToUser(user, item)
-            console.log("user" +i+ " finished creating item: " + j);
-        }
+    for (let i = 0; i < 1; i++) {
+        console.log("creating user: " + i);
+        const newUser = "test";
+        let user = await createOrGetUser(newUser+i, newUser +i+ "@test.com", "1234");
+        // for (let j = 0; j <3; j++) {
+        //     console.log("creating item: " + j);
+        //     var item = new Item({item: {title: "test-item-" + j, description: "test-desc", image: "test-img", tagList: ["test-tag"]}});
+        //     await addItemToUser(user, item)
+        //     console.log("user" +i+ " finished creating item: " + j);
+        // }
+        console.log("finished creating user " + i);
     }
 }
 
@@ -62,5 +62,5 @@ run().then(()=> {
     console.log("finised");
 }).catch(e => {
     console.log("error " + e);
+    process.exit(1);
 });
-
