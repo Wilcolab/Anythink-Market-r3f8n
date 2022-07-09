@@ -29,14 +29,14 @@ async function createOrGetUser(username, email, password) {
     user.setPassword(password);
     let uu = await user.save();
     
-    return uu.toAuthJSON();
+    return uu.id;
 }
 
 
 async function addItemToUser(userId, item) {
     let user = await User.findById(userId);
     console.log("user found");
-    var item = new Item({item: {seller: user, title: "test-item-" + j, description: "test-desc", image: "test-img", tagList: ["test-tag"]}});
+    var item = new Item({item: {seller: user.objectId, title: "test-item-" + j, description: "test-desc", image: "test-img", tagList: ["test-tag"]}});
     await item.save();
     console.log("added item to user");
     return 0;
