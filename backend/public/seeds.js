@@ -34,6 +34,7 @@ async function createOrGetUser(username, email, password) {
 
 
 async function addItemToUser(userId, item) {
+    
     let user = await User.findById(userId);
     item.seller = user;
     await item.save();
@@ -46,16 +47,18 @@ async function run() {
     await connectToMongo()
     for (let i = 0; i < 1; i++) {
         console.log("creating user: " + i);
-        const newUser = "test";
-        let user = await createOrGetUser(newUser+i, newUser +i+ "@test.com", "1234");
-        // for (let j = 0; j <3; j++) {
-        //     console.log("creating item: " + j);
-        //     var item = new Item({item: {title: "test-item-" + j, description: "test-desc", image: "test-img", tagList: ["test-tag"]}});
-        //     await addItemToUser(user, item)
-        //     console.log("user" +i+ " finished creating item: " + j);
-        // }
+        const username = "test";
+        const email = username + "@test.com";
+        const pass = "abcd1234"
+        let user = await createOrGetUser(username, email, pass);
+        for (let j = 0; j <3; j++) {
+            console.log("creating item: " + j);
+            await addItemToUser(user)
+            console.log("user" +i+ " finished creating item: " + j);
+        }
         console.log("finished creating user " + i);
     }
+    return 0;
 }
 
 run().then(()=> {
