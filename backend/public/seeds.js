@@ -36,7 +36,7 @@ async function createOrGetUser(username, email, password) {
 }
 
 
-async function addCommentToItem(user, item){
+async function addCommentToItem(userId, item){
     let user = await User.findById(userId);
     if (user)
         console.log("user found");
