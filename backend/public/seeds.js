@@ -33,6 +33,7 @@ async function createOrGetUser(username, email, password) {
 
 
 async function addItemToUser(userId, i) {
+    console.log("looking for user: " + userId)
     let user = await User.findById(userId);
     if (user)
         console.log("user found");
