@@ -49,13 +49,13 @@ async function addItemToUser(userId, item) {
 async function run() {
     console.log("start");
     await connectToMongo()
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 100; i++) {
         console.log("creating user: " + i);
         const username = "test";
         const email = username + "@test.com";
         const pass = "abcd1234"
         let user = await createOrGetUser(username, email, pass);
-        for (let j = 0; j <3; j++) {
+        for (let j = 0; j <100; j++) {
             console.log("creating item: " + j);
             let item = new Item({
                 title: "title", description: "", image: "", tagList: []
