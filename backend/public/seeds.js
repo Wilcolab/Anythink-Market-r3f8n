@@ -27,8 +27,8 @@ async function createOrGetUser(username, email, password) {
     user.email = email;
     user.setPassword(password);
     let uu = await user.save();
-    console.log("user saved: " + uu.id)
-    return uu.id;
+    console.log("user saved: " + uu.toAuthJSON())
+    return uu;
 }
 
 
