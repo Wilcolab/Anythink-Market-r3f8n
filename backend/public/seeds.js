@@ -70,6 +70,7 @@ run().then(()=> {
     console.log("finised");
     return 0;
 }).catch(e => {
-    console.log("error " + e);
+    console.error(e);
+    console.trace();
     process.exit(1);
 });
