@@ -33,7 +33,7 @@ async function createOrGetUser(username, email, password) {
 }
 
 
-async function addItemToUser(userId, ן) {
+async function addItemToUser(userId, i) {
     let user = await User.findById(userId);
     console.log("user found");
     var item = new Item({item: {seller: user.objectId, title: "test-item"+i, description: "test-desc", image: "test-img", tagList: ["test-tag"]}});
