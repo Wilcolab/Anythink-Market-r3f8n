@@ -2,10 +2,12 @@ const axios = require('axios').default;
 const mongoose = require("mongoose");
 require('../models/User');
 require('../models/Item');
+require('../models/Comment');
 
 
 const User = mongoose.model("User");
 const Item = mongoose.model("Item");
+const Comment = mongoose.model("Comment");
 const isProduction = process.env.NODE_ENV === "production";
 
 //process.env.MONGODB_URI = "mongodb://localhost:27017"
@@ -34,17 +36,32 @@ async function createOrGetUser(username, email, password) {
 }
 
 
+async function addCommentToItem(user, item){
+    // let user = await User.findById(userId);
+    // if (user)
+    //     console.log("user found");
+    // else
+    //     console.log("user is undefined");
+    let comment = new Comment({body: "body"});
+    comment.item = item;
+    comment.seller = user;
+    await comment.save();
+    console.log("added comment to item");
+    return 0;
+}
+
+
 async function addItemToUser(userId, item) {
-    console.log("looking for user: " + userId)
-    let user = await User.findById(userId);
+    // console.log("looking for user: " + userId)
+    // let user = await User.findById(userId);
     if (user)
         console.log("user found");
     else
         console.log("user is undefined");
     item.seller = user;
-    await item.save();
+    let res = await item.save();
     console.log("added item to user");
-    return 0;
+    return res;
 }
 
 
@@ -62,8 +79,9 @@ async function run() {
             let item = new Item({
                 title: "title" + j, description: "", image: "", tagList: []
             });
-            await addItemToUser(user, item)
+            item = await addItemToUser(user, item)
             console.log("user" + i + " finished creating item: " + j);
+            await addCommentToItem(item, user)
         }
         console.log("finished creating user " + i);
     }
