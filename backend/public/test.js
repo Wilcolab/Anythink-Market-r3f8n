@@ -7,7 +7,7 @@ const Item = mongoose.model("Item");
 const Comment = mongoose.model("Comment");
 const User = mongoose.model("User");
 
-const MONGODB_URI = "mongodb://localhost:27017"
+const MONGODB_URI = "mongodb://localhost/anythink-market"
 
 async function main() {
     let query = {};
@@ -17,10 +17,10 @@ async function main() {
     mongoose.connect(MONGODB_URI);
     mongoose.set("debug", true);
     
-    let str = "test";
+    let str = "title0";
     
     
-    let seller = await User.findOne({ username: "test1"});
+    let seller = await User.findOne({ username: "test0"});
     if (seller) {
         query.seller = seller._id;
     }
@@ -31,7 +31,7 @@ async function main() {
     .sort({ createdAt: "desc" })
     .exec();
     items = items.filter(item => {
-        return item.title.includes(str);
+        return item.title===str;
     });
     
     return items;
