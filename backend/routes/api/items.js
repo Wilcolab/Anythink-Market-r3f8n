@@ -87,7 +87,7 @@ router.get("/", auth.optional, function(req, res, next) {
         req.payload ? User.findById(req.payload.id) : null
       ]).then(async function(results) {
         var items = results[0].filter(item => {
-          return item.title===title;
+          return item.title.includes(title);
       });
         var itemsCount = items.length;
         var user = results[2];
