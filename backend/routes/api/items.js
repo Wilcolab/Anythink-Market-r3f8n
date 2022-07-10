@@ -53,6 +53,11 @@ router.get("/", auth.optional, function(req, res, next) {
     query.tagList = { $in: [req.query.tag] };
   }
 
+  
+  if (typeof req.query.title !== "undefined") {
+    query.title = { $in: req.query.title };
+  }
+
   Promise.all([
     req.query.seller ? User.findOne({ username: req.query.seller }) : null,
     req.query.favorited ? User.findOne({ username: req.query.favorited }) : null
@@ -80,8 +85,10 @@ router.get("/", auth.optional, function(req, res, next) {
         Item.count(query).exec(),
         req.payload ? User.findById(req.payload.id) : null
       ]).then(async function(results) {
-        var items = results[0];
-        var itemsCount = results[1];
+        var items = results[0].filter(item => {
+          return item.title.includes(query.title);
+      });
+        var itemsCount = items.length;
         var user = results[2];
         return res.json({
           items: await Promise.all(
