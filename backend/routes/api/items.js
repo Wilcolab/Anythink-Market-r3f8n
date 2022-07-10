@@ -40,6 +40,7 @@ router.get("/", auth.optional, function(req, res, next) {
   var query = {};
   var limit = 100;
   var offset = 0;
+  let title;
 
   if (typeof req.query.limit !== "undefined") {
     limit = req.query.limit;
@@ -55,7 +56,7 @@ router.get("/", auth.optional, function(req, res, next) {
 
   
   if (typeof req.query.title !== "undefined") {
-    query.title = req.query.title;
+    title = req.query.title;
   }
 
   Promise.all([
@@ -86,7 +87,7 @@ router.get("/", auth.optional, function(req, res, next) {
         req.payload ? User.findById(req.payload.id) : null
       ]).then(async function(results) {
         var items = results[0].filter(item => {
-          return item.title===query.title;
+          return item.title===title;
       });
         var itemsCount = items.length;
         var user = results[2];
